@@ -1,0 +1,3 @@
+@PREFIX@/include/heynoti/*
+@PREFIX@/lib/lib*.so
+@PREFIX@/lib/pkgconfig/*.pc

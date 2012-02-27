@@ -1,0 +1,34 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR})
+LINK_DIRECTORIES(${CMAKE_BINARY_DIR})
+
+SET(TARGETS tst_publish)
+
+FOREACH(TARGET ${TARGETS})
+	ADD_EXECUTABLE(${TARGET} ${TARGET}.c)
+	TARGET_LINK_LIBRARIES(${TARGET} heynoti)
+ENDFOREACH(TARGET)
+
+INCLUDE(FindPkgConfig)
+pkg_check_modules(pkg_ecore ecore)
+
+IF(${pkg_ecore_FOUND})
+   SET(TARGETS tst_subscribe_ecore tst_subscribe_file_mask)
+   FOREACH(TARGET ${TARGETS})
+	   ADD_EXECUTABLE(${TARGET} ${TARGET}.c)
+      STRING(REPLACE ";" " " TEMP_CFLAGS "${pkg_ecore_CFLAGS}")
+      SET_TARGET_PROPERTIES(${TARGET} PROPERTIES COMPILE_FLAGS ${TEMP_CFLAGS})
+   	TARGET_LINK_LIBRARIES(${TARGET} heynoti ${pkg_ecore_LDFLAGS})
+   ENDFOREACH(TARGET)
+ENDIF(${pkg_ecore_FOUND})
+
+pkg_check_modules(pkg_glib glib-2.0)
+
+IF(${pkg_glib_FOUND})
+	ADD_EXECUTABLE(tst_subscribe_glib tst_subscribe_glib.c)
+   STRING(REPLACE ";" " " TEMP_CFLAGS "${pkg_glib_CFLAGS}")
+   SET_TARGET_PROPERTIES(${TARGET} PROPERTIES COMPILE_FLAGS ${TEMP_CFLAGS})
+	TARGET_LINK_LIBRARIES(tst_subscribe_glib heynoti)
+	TARGET_LINK_LIBRARIES(tst_subscribe_glib ${pkg_glib_LDFLAGS})
+ENDIF(${pkg_glib_FOUND})

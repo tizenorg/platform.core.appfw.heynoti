@@ -1,0 +1,33 @@
+Source: heynoti
+Section: libs
+Priority: extra
+Maintainer: Jayoun Lee <airjany@samsung.com>, Sewook Park <sewook7.park@samsung.com>, Jaeho Lee <jaeho81.lee@samsung.com>
+Uploaders: Youmin Ha <youmin.ha@samsung.com>, Noha Park <noha.park@samsung.com>, Sangjung Woo <sangjung.woo@samsung.com>
+Build-Depends: debhelper (>= 5), dlog-dev, libglib2.0-dev
+Standards-Version: 3.7.2
+Homepage: N/A
+
+Package: libheynoti-dev
+Section: libs
+Architecture: any
+Depends: libheynoti-0 (= ${Source-Version}), libglib2.0-dev
+Description: heynoti notification library (development)
+ HEY(ligHt Easy speedY) notification library.
+ This includes notify service APIs.
+XB-Generate-Docs: yes
+
+Package: libheynoti-0
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: heynoti notification library (shared object)
+ HEY(ligHt Easy speedY) notification library.
+ This includes notify service APIs.
+
+Package: libheynoti-dbg
+Section: debug
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, libheynoti-0 (= ${Source-Version})
+Description: heynoti notification library (unstripped)
+ HEY(ligHt Easy speedY) notification library.
+ This includes notify service APIs.

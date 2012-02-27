@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Create directory permission
+mkdir -p /opt/share/noti
+chmod 1755 /opt/share/noti
