@@ -9,7 +9,7 @@ Source0:    heynoti-%{version}.tar.gz
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 BuildRequires:  cmake
-BuildRequires:  pkgconfig(sglib)
+#BuildRequires:  pkgconfig(sglib)
 BuildRequires:  pkgconfig(dlog)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(ecore)
@@ -30,7 +30,7 @@ heynoti API (devel)
 
 
 %prep
-%setup -q -n %{name}
+%setup -q 
 
 
 %build
@@ -55,13 +55,12 @@ rm -rf %{buildroot}
 
 
 %files
-%defattr(-,root,root,-)
 %{_libdir}/libheynoti.so.0
 %{_libdir}/libheynoti.so.0.0.2
-
+%{_bindir}/heynotitool
+#/usr/bin/heynotitool
 
 %files devel
-%defattr(-,root,root,-)
 %{_includedir}/heynoti/SLP_Heynoti_PG.h
 %{_includedir}/heynoti/heynoti.h
 %{_libdir}/pkgconfig/heynoti.pc
