@@ -42,7 +42,7 @@
 #define AU_PREFIX_SYSNOTI "SYS"
 
 #ifndef NOTI_ROOT
-#  define NOTI_ROOT "/tmp/noti"
+#  define NOTI_ROOT "/opt/share/noti"
 #endif
 
 
@@ -114,13 +114,11 @@ static int __make_noti_root(const char *p)
 {
 	int fd;
 
-	if ((fd = open(p, O_RDONLY)) == -1) {
-		if (mkdir(p, 0777) == -1)
-			return -1;
-	} else {
-		fchmod(fd, 0777);
-		close(fd);
-	}
+	if ((fd = open(p, O_RDONLY)) == -1 )
+		return -1;
+
+	close(fd);
+
 	return 0;
 }
 
@@ -128,28 +126,11 @@ static int __make_noti_file(const char *p)
 {
 	int fd;
 
-#ifdef NODAC_PERMISSION
-	if ((fd = open(p, O_RDONLY)) == -1) {
-		if ((fd = open(p, O_CREAT, 0666)) < 0) {
-			return -1;
-		}
-		fchmod(fd, 0666);
-		close(fd);
-	} else {
-		fchmod(fd, 0666);
-		close(fd);
-	}
-#else
-	if ((fd = open(p, O_RDONLY)) == -1) {
-		if ((fd = open(p, O_CREAT, 0644)) < 0) {
-			return -1;
-		}
-		close(fd);
-	} else {
-		fchmod(fd, 0644);
-		close(fd);
-	}
-#endif
+	if ((fd = open(p, O_RDONLY)) == -1)
+		return -1;
+		
+	close(fd);
+
 	return 0;
 }
 
@@ -364,8 +345,6 @@ static int __add_noti(int fd, const char *notipath, void (*cb) (void *),
 		return -1;
 	}
 
-	__make_noti_file(notipath);
-
 	wd = __get_wd(fd, notipath);
 	util_retvm_if(wd == -1, -1, "Error: add noti: %s", strerror(errno));
 
@@ -399,18 +378,6 @@ static int __add_noti(int fd, const char *notipath, void (*cb) (void *),
 	nc->g_ns = g_list_append(nc->g_ns, (gpointer) n);
 
 	return 0;
-}
-
-API int heynoti_subscribe_file(int fd, const char *path, void (*cb) (void *),
-			       void *data, uint32_t mask)
-{
-	if (path == NULL || cb == NULL) {
-		UTIL_DBG("Error: add noti: Invalid input");
-		errno = EINVAL;
-		return -1;
-	}
-
-	return __add_noti(fd, path, cb, data, mask);
 }
 
 API int heynoti_subscribe(int fd, const char *noti, void (*cb) (void *),
@@ -515,21 +482,6 @@ API int heynoti_unsubscribe(int fd, const char *noti, void (*cb) (void *))
 	return r;
 }
 
-API int heynoti_unsubscribe_file(int fd, const char *path, void (*cb) (void *))
-{
-	int r;
-
-	if (fd < 0 || path == NULL) {
-		errno = EINVAL;
-		return -1;
-	}
-
-	r = del_noti(fd, path, cb);
-	util_warn_if(r == -1, "Error: del [%s]: %s", path, strerror(errno));
-
-	return r;
-}
-
 API int heynoti_publish(const char *noti)
 {
 	int fd;
@@ -551,11 +503,8 @@ API int heynoti_publish(const char *noti)
 	}
 	UTIL_DBG("send noti: [%s]", notipath);
 
-#ifdef NODAC_PERMISSION
-	fd = open(notipath, O_CREAT | O_TRUNC | O_RDWR, 0666);
-#else
-	fd = open(notipath, O_CREAT | O_TRUNC | O_RDWR, 0644);
-#endif
+	fd = open(notipath, O_TRUNC | O_WRONLY);
+
 	util_retvm_if(fd == -1, -1, "Error: send noti: %s", strerror(errno));
 
 	/*
@@ -565,9 +514,6 @@ API int heynoti_publish(const char *noti)
 	if(sb.st_mode & 0033)
 		fchmod(fd, 0644);
 	*/
-#ifdef NODAC_PERMISSION
-	fchmod(fd, 0666);
-#endif
 
 	close(fd);
 	return 0;

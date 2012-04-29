@@ -4,8 +4,6 @@ TARGETS = utc_ApplicationFW_heynoti_init_func \
 	utc_ApplicationFW_heynoti_close_func \
 	utc_ApplicationFW_heynoti_subscribe_func \
 	utc_ApplicationFW_heynoti_unsubscribe_func \
-	utc_ApplicationFW_heynoti_subscribe_file_func \
-	utc_ApplicationFW_heynoti_unsubscribe_file_func \
 	utc_ApplicationFW_heynoti_publish_func \
 	utc_ApplicationFW_heynoti_poll_event_func \
 	utc_ApplicationFW_heynoti_attach_handler_func \

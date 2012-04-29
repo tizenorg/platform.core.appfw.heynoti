@@ -50,9 +50,9 @@
 
 #include <stdio.h>
 
-/*#define UTILCORE_DEBUG */
 /*#define UTIL_SYSLOG_OUT */
 #define UTIL_DLOG_OUT
+#define UTILCORE_DEBUG
 
 #ifdef UTIL_SYSLOG_OUT
 #include <syslog.h>
@@ -66,12 +66,13 @@
 #define UTIL_ERR(fmt, arg...) __UTIL_LOG(LOG_ERR, fmt, ##arg)
 #define _UTIL_DBG(fmt, arg...) __UTIL_LOGD(LOG_DEBUG, fmt, ##arg)
 #elif defined(UTIL_DLOG_OUT)
+#define LOG_TAG "HEYNOTI"
 #include <dlog.h>
 #define UTIL_DLOG(prio, fmt, arg...) \
 		do { } while (0)
-#define UTIL_INFO(fmt, arg...) UTIL_DLOG(DLOG_VERBOSE, fmt, ##arg)
-#define UTIL_ERR(fmt, arg...) UTIL_DLOG(DLOG_EXCEPTION, fmt, ##arg)
-#define _UTIL_DBG(fmt, arg...) UTIL_DLOG(DLOG_VERBOSE, fmt, ##arg)
+#define UTIL_INFO(fmt, arg...) LOGD("[%s,%d] "fmt,__FUNCTION__,__LINE__,##arg)
+#define UTIL_ERR(fmt, arg...) LOGE("[%s,%d] "fmt,__FUNCTION__,__LINE__,##arg)
+#define _UTIL_DBG(fmt, arg...) LOGD("[%s,%d] "fmt,__FUNCTION__,__LINE__,##arg)
 #else
 #include <syslog.h>
 
