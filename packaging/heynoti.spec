@@ -9,6 +9,8 @@ Source0:    %{name}-%{version}.tar.gz
 Source1001: packaging/heynoti.manifest 
 
 Requires(post): /sbin/ldconfig
+Requires(post): /bin/mkdir
+Requires(post): /bin/chmod
 Requires(postun): /sbin/ldconfig
 
 BuildRequires:  cmake
