@@ -6,6 +6,7 @@ Release:    35
 Group:      System/Libraries
 License:    Apache License, Version 2.0
 Source0:    %{name}-%{version}.tar.gz
+Source1001: packaging/heynoti.manifest 
 
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
@@ -36,6 +37,7 @@ heynoti API (devel)
 
 
 %build
+cp %{SOURCE1001} .
 cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE="Debug"
 
 
@@ -55,6 +57,7 @@ chmod 1755 /opt/share/noti
 
 
 %files
+%manifest heynoti.manifest
 %defattr(-,root,root,-)
 %{_libdir}/libheynoti.so.0
 %{_libdir}/libheynoti.so.0.0.2
@@ -62,6 +65,7 @@ chmod 1755 /opt/share/noti
 
 
 %files devel
+%manifest heynoti.manifest
 %defattr(-,root,root,-)
 %{_includedir}/heynoti/SLP_Heynoti_PG.h
 %{_includedir}/heynoti/heynoti.h
