@@ -67,3 +67,4 @@ chmod 1755 /opt/share/noti
 %{_includedir}/heynoti/heynoti.h
 %{_libdir}/pkgconfig/heynoti.pc
 %{_libdir}/libheynoti.so
+
