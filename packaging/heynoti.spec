@@ -1,55 +1,46 @@
+#
 
-Name:       heynoti
-Summary:    HEY (ligHt Easy speedy) notification library
-Version:    0.0.2
-Release:    39
-Group:      System/Libraries
-License:    Apache License, Version 2.0
-Source0:    %{name}-%{version}.tar.gz
-
-Requires(post): /sbin/ldconfig
-Requires(postun): /sbin/ldconfig
+Name:           heynoti
+Version:        0.0.2
+Release:        39
+License:        Apache License, Version 2.0
+Summary:        HEY (ligHt Easy speedy) notification library
+Group:          System/Libraries
+Source0:        %{name}-%{version}.tar.gz
 
 BuildRequires:  cmake
-
 BuildRequires:  pkgconfig(dlog)
-BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(ecore)
-
+BuildRequires:  pkgconfig(glib-2.0)
 
 %description
 lightweight notification library, service APIs
 
-
 %package devel
-Summary:    Notification library
-Group:      Development/Libraries
-Requires:   %{name} = %{version}-%{release}
-Requires:   heynoti
+Summary:        Notification library
+Group:          Development/Libraries
+Requires:       %{name} = %{version}
+Requires:       heynoti
 
 %description devel
 heynoti API (devel)
-
 
 %prep
 %setup -q
 
 
 %build
-cmake . -DCMAKE_INSTALL_PREFIX=%{_prefix} -DCMAKE_BUILD_TYPE="Debug"
+%cmake . -DCMAKE_BUILD_TYPE="Debug"
 
 
-make %{?jobs:-j%jobs}
+make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 %make_install
 
+mkdir -p %{buildroot}/opt/share/noti
 
-%post
-/sbin/ldconfig
-mkdir -p /opt/share/noti
-chmod 1755 /opt/share/noti
+%post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
@@ -60,6 +51,7 @@ chmod 1755 /opt/share/noti
 %{_libdir}/libheynoti.so.0
 %{_libdir}/libheynoti.so.0.0.2
 %{_bindir}/heynotitool
+%attr(1755,root,root) /opt/share/noti
 
 
 %files devel
