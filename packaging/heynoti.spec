@@ -2,14 +2,16 @@
 Name:       heynoti
 Summary:    HEY (ligHt Easy speedy) notification library
 Version:    0.0.2
-Release:    5.1
+Release:    39
 Group:      System/Libraries
-License:    GNU LGPL
-Source0:    heynoti-%{version}.tar.gz
+License:    Apache License, Version 2.0
+Source0:    %{name}-%{version}.tar.gz
+
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+
 BuildRequires:  cmake
-BuildRequires:  pkgconfig(sglib)
+
 BuildRequires:  pkgconfig(dlog)
 BuildRequires:  pkgconfig(glib-2.0)
 BuildRequires:  pkgconfig(ecore)
@@ -30,7 +32,7 @@ heynoti API (devel)
 
 
 %prep
-%setup -q -n %{name}
+%setup -q
 
 
 %build
@@ -44,20 +46,20 @@ rm -rf %{buildroot}
 %make_install
 
 
-
-
-%post -p /sbin/ldconfig
+%post
+/sbin/ldconfig
+mkdir -p /opt/share/noti
+chmod 1755 /opt/share/noti
 
 %postun -p /sbin/ldconfig
 
 
-
-
-
 %files
+%manifest heynoti.manifest
 %defattr(-,root,root,-)
 %{_libdir}/libheynoti.so.0
 %{_libdir}/libheynoti.so.0.0.2
+%{_bindir}/heynotitool
 
 
 %files devel
