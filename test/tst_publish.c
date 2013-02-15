@@ -31,8 +31,10 @@ int main(int argc, char *argv[])
 	if (argc > 1) {
 		char p[FILENAME_MAX];
 
-		if (!heynoti_get_snoti_name(argv[1], p, sizeof(p))) ;
-		heynoti_publish(p);
+		if (!heynoti_get_snoti_name(argv[1], p, sizeof(p)))
+			heynoti_publish(p);
+		else
+			printf("noti name error\n");
 	} else {
 		printf("usage) %s NOTI_NAME\n", argv[0]);
 	}
