@@ -14,7 +14,7 @@ INCLUDE(FindPkgConfig)
 pkg_check_modules(pkg_ecore ecore)
 
 IF(${pkg_ecore_FOUND})
-   SET(TARGETS tst_subscribe_ecore tst_subscribe_file_mask)
+   SET(TARGETS tst_subscribe_ecore)
    FOREACH(TARGET ${TARGETS})
 	   ADD_EXECUTABLE(${TARGET} ${TARGET}.c)
       STRING(REPLACE ";" " " TEMP_CFLAGS "${pkg_ecore_CFLAGS}")
