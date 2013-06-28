@@ -7,6 +7,7 @@ License:        Apache License, Version 2.0
 Summary:        HEY (ligHt Easy speedy) notification library
 Group:          System/Libraries
 Source0:        %{name}-%{version}.tar.gz
+Source1001: 	heynoti.manifest
 
 BuildRequires:  cmake
 BuildRequires:  pkgconfig(dlog)
@@ -27,6 +28,7 @@ heynoti API (devel)
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 
 
 %build
@@ -46,7 +48,7 @@ mkdir -p %{buildroot}/opt/share/noti
 
 
 %files
-%manifest heynoti.manifest
+%manifest %{name}.manifest
 %defattr(-,root,root,-)
 %{_libdir}/libheynoti.so.0
 %{_libdir}/libheynoti.so.0.0.2
@@ -55,6 +57,7 @@ mkdir -p %{buildroot}/opt/share/noti
 
 
 %files devel
+%manifest %{name}.manifest
 %defattr(-,root,root,-)
 %{_includedir}/heynoti/SLP_Heynoti_PG.h
 %{_includedir}/heynoti/heynoti.h
