@@ -1,0 +1,8 @@
+Change-Id: I0392b03dc6aa9300440ccc1ba3c204968f738501
+Code-Review+2: Ryan Ware <ware@linux.intel.com>
+Verified+1: Ryan Ware <ware@linux.intel.com>
+Submitted-by: Ryan Ware <ware@linux.intel.com>
+Submitted-at: Mon, 08 Jul 2013 10:06:04 -0700
+Reviewed-on: https://review.tizen.org/gerrit/4621
+Project: platform/core/appfw/heynoti
+Branch: refs/heads/tizen
