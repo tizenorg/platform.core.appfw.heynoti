@@ -2,7 +2,7 @@
 
 Name:           heynoti
 Version:        0.0.2
-Release:        39
+Release:        40
 License:        Apache License, Version 2.0
 Summary:        HEY (ligHt Easy speedy) notification library
 Group:          System/Libraries
