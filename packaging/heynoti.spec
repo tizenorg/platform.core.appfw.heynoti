@@ -2,7 +2,7 @@
 
 Name:           heynoti
 Version:        0.0.2
-Release:        40
+Release:        41
 License:        Apache License, Version 2.0
 Summary:        HEY (ligHt Easy speedy) notification library
 Group:          System/Libraries
@@ -37,7 +37,8 @@ make %{?_smp_mflags}
 
 %install
 %make_install
-
+mkdir -p %{buildroot}/usr/share/license
+install LICENSE %{buildroot}/usr/share/license/%{name}
 mkdir -p %{buildroot}/opt/share/noti
 
 %post -p /sbin/ldconfig
@@ -52,6 +53,7 @@ mkdir -p %{buildroot}/opt/share/noti
 %{_libdir}/libheynoti.so.0.0.2
 %{_bindir}/heynotitool
 %attr(1755,root,root) /opt/share/noti
+/usr/share/license/%{name}
 
 
 %files devel
