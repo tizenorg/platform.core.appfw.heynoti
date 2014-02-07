@@ -37,12 +37,15 @@
 #include <glib.h>
 #include <sys/utsname.h>
 
+/* For multi-user support */
+#include <tzplatform_config.h>
+
 #include "heynoti-internal.h"
 
 #define AU_PREFIX_SYSNOTI "SYS"
 
 #ifndef NOTI_ROOT
-#  define NOTI_ROOT "/opt/share/noti"
+#define NOTI_ROOT tzplatform_mkpath(TZ_SYS_SHARE, "noti")
 #endif
 
 
@@ -106,7 +109,6 @@ struct noti_cont {
 };
 typedef struct noti_cont ncont;
 
-static const char *noti_root = NOTI_ROOT;
 static GList *g_nc;
 
 static int __make_noti_root(const char *p)
@@ -135,7 +137,7 @@ static int __make_noti_file(const char *p)
 
 static inline int __make_noti_path(char *path, int size, const char *name)
 {
-	return snprintf(path, size, "%s/%s", noti_root, name);
+	return snprintf(path, size, "%s/%s", NOTI_ROOT, name);
 }
 
 static int __read_proc(const char *path, char *buf, int size)
@@ -543,9 +545,9 @@ API int heynoti_init()
 	r = fcntl(fd, F_SETFL, O_NONBLOCK);
 	util_retvm_if(r < 0, -1, "fcntl error : %s", strerror(errno));
 
-	r = __make_noti_root(noti_root);
+	r = __make_noti_root(NOTI_ROOT);
 	if (r == -1) {
-		UTIL_ERR("make noti root: %s : %s", noti_root, strerror(errno));
+		UTIL_ERR("make noti root: %s : %s", NOTI_ROOT, strerror(errno));
 		close(fd);
 		return -1;
 	}

@@ -25,7 +25,7 @@ INCLUDE_DIRECTORIES(${CMAKE_SOURCE_DIR}/include)
 INCLUDE(FindPkgConfig)
 
 pkg_check_modules(glib_pkg REQUIRED gobject-2.0)
-pkg_check_modules(pkgs REQUIRED glib-2.0 dlog)
+pkg_check_modules(pkgs REQUIRED glib-2.0 dlog libtzplatform-config)
 FOREACH(flag ${pkgs_CFLAGS})
    SET(EXTRA_CFLAGS "${EXTRA_CFLAGS} ${flag}")
 ENDFOREACH(flag)
