@@ -34,17 +34,18 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+/* For multi-user support */
+#include <tzplatform_config.h>
+
+#define HEYNOTI_PREFIX tzplatform_mkpath(TZ_SYS_SHARE, "noti")
 
 #define BUFSIZE		1024
 
 const int SHARED_PERM = 0666;
 const int USER_PERM = 0644;
 
-const char *HEYNOTI_PREFIX = "/opt/share/noti";
-
 static int is_app = FALSE;
 static int perm = 0;
-static int user_id = 5000;
 
 
 static GOptionEntry entries[] = {
