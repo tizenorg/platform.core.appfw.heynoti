@@ -266,10 +266,12 @@ static int __handle_event(int fd)
 			return -1;
 
 		if (ie.len > 0u) {
-			read(fd, name, (ie.len > FILENAME_MAX) ? (size_t)FILENAME_MAX : (size_t) ie.len);
+			r = read(fd, name, (ie.len > FILENAME_MAX) ? (size_t)FILENAME_MAX : (size_t) ie.len);
 		}
 
-		r = read(fd, &ie, sizeof(ie));
+		if(r > 0) {
+			r = read(fd, &ie, sizeof(ie));
+		}
 	}
 
 	return 0;

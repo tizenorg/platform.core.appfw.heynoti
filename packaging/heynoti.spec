@@ -43,6 +43,8 @@ make %{?_smp_mflags}
 %make_install
 
 mkdir -p %{buildroot}%{TZ_SYS_SHARE}/noti
+mkdir -p %{buildroot}/usr/share/license
+install LICENSE %{buildroot}/usr/share/license/%{name}
 
 %post -p /sbin/ldconfig
 
@@ -56,6 +58,7 @@ mkdir -p %{buildroot}%{TZ_SYS_SHARE}/noti
 %{_libdir}/libheynoti.so.0.0.2
 %{_bindir}/heynotitool
 %attr(1755,root,root) %{TZ_SYS_SHARE}/noti
+/usr/share/license/%{name}
 
 
 %files devel
